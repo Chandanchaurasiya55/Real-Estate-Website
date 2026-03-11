@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NestFind — Your Partner in Property</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">Nest<span>Find</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Buy</a></li>
+    <li><a href="#">Rent</a></li>
+    <li><a href="#">Sell</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#" class="nav-cta">Property Search</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&auto=format&fit=crop" alt="Beautiful modern home" />
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Find Your <span>Dream</span> Home Today</h1>
+    <p>Buying, selling, or renting — we guide you every step of the way with expert advice and personal support.</p>
+    <div class="hero-btns">
+      <a href="#properties" class="btn-primary">Browse Properties</a>
+      <a href="#valuation" class="btn-outline">Free Valuation</a>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-section">
+  <div class="search-bar">
+    <div class="search-field">
+      <label>Location</label>
+      <input type="text" placeholder="City, area or postcode…" />
+    </div>
+    <div class="search-field">
+      <label>Property Type</label>
+      <select>
+        <option>Any Type</option>
+        <option>House</option>
+        <option>Flat / Apartment</option>
+        <option>Bungalow</option>
+        <option>Commercial</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>Listing Type</label>
+      <select>
+        <option>Buy or Rent</option>
+        <option>For Sale</option>
+        <option>To Rent</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>Max Price</label>
+      <select>
+        <option>No Limit</option>
+        <option>£200,000</option>
+        <option>£400,000</option>
+        <option>£600,000</option>
+        <option>£1,000,000+</option>
+      </select>
+    </div>
+    <button class="search-btn">🔍 Search</button>
+  </div>
+</div>
+
+<!-- FEATURED PROPERTIES -->
+<section id="properties">
+  <div style="text-align:center; margin-bottom: 40px;">
+    <div class="section-label">Latest Listings</div>
+    <h2 class="section-title">Featured Properties</h2>
+    <p class="section-sub" style="margin: 0 auto;">Hand-picked homes from our latest listings across London and the surrounding areas.</p>
+  </div>
+  <div class="cards-grid">
+
+    <!-- Card 1 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&auto=format&fit=crop" alt="Detached House" />
+        <span class="card-badge">For Sale</span>
+      </div>
+      <div class="card-body">
+        <div class="card-price">£485,000</div>
+        <div class="card-title">4-Bed Detached House</div>
+        <div class="card-loc">📍 Heston, Middlesex</div>
+        <div class="card-features">
+          <span>🛏 4 Beds</span>
+          <span>🚿 2 Baths</span>
+          <span>🚗 Garage</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop" alt="Modern Villa" />
+        <span class="card-badge">For Sale</span>
+      </div>
+      <div class="card-body">
+        <div class="card-price">£720,000</div>
+        <div class="card-title">5-Bed Modern Villa</div>
+        <div class="card-loc">📍 Hounslow, TW3</div>
+        <div class="card-features">
+          <span>🛏 5 Beds</span>
+          <span>🚿 3 Baths</span>
+          <span>🏊 Pool</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&auto=format&fit=crop" alt="Apartment" />
+        <span class="card-badge rent">To Rent</span>
+      </div>
+      <div class="card-body">
+        <div class="card-price">£1,800 / mo</div>
+        <div class="card-title">2-Bed Modern Apartment</div>
+        <div class="card-loc">📍 Southall, UB1</div>
+        <div class="card-features">
+          <span>🛏 2 Beds</span>
+          <span>🚿 1 Bath</span>
+          <span>🅿️ Parking</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&auto=format&fit=crop" alt="Family Home" />
+        <span class="card-badge">For Sale</span>
+      </div>
+      <div class="card-body">
+        <div class="card-price">£360,000</div>
+        <div class="card-title">3-Bed Semi-Detached</div>
+        <div class="card-loc">📍 Heston, TW5</div>
+        <div class="card-features">
+          <span>🛏 3 Beds</span>
+          <span>🚿 2 Baths</span>
+          <span>🌿 Garden</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&auto=format&fit=crop" alt="Luxury Home" />
+        <span class="card-badge">For Sale</span>
+      </div>
+      <div class="card-body">
+        <div class="card-price">£950,000</div>
+        <div class="card-title">6-Bed Luxury Home</div>
+        <div class="card-loc">📍 Hounslow Central</div>
+        <div class="card-features">
+          <span>🛏 6 Beds</span>
+          <span>🚿 4 Baths</span>
+          <span>🏡 Large Plot</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=600&auto=format&fit=crop" alt="Studio Flat" />
+        <span class="card-badge rent">To Rent</span>
+      </div>
+      <div class="card-body">
+        <div class="card-price">£1,200 / mo</div>
+        <div class="card-title">1-Bed Studio Flat</div>
+        <div class="card-loc">📍 Southall, UB2</div>
+        <div class="card-features">
+          <span>🛏 1 Bed</span>
+          <span>🚿 1 Bath</span>
+          <span>🚇 Near Tube</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align:center; margin-top:36px;">
+    <a href="#" class="btn-primary">View All Properties</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-bg">
+  <div style="text-align:center; margin-bottom:40px;">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">Our Services</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🏠</div>
+      <h3>Buying a Property</h3>
+      <p>Step-by-step guidance from your first viewing to collecting the keys. We're with you every step.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💷</div>
+      <h3>Selling a Property</h3>
+      <p>Market-leading valuations and targeted marketing to get you the best price fast.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔑</div>
+      <h3>Letting Your Property</h3>
+      <p>Full landlord support — from tenant-finding to full property management packages.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <h3>Tenants Guide</h3>
+      <p>Everything you need to know about renting — deposits, checks, and your rights explained.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <h3>Free Valuation</h3>
+      <p>Curious what your home is worth? Get a free online or in-person valuation today.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔔</div>
+      <h3>Property Alerts</h3>
+      <p>Register and be the first to hear about new properties that match your requirements.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section>
+  <div class="why-grid">
+    <div class="why-img">
+      <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&auto=format&fit=crop" alt="Our Team" />
+    </div>
+    <div class="why-text">
+      <div class="section-label">Why NestFind</div>
+      <h2>Your Trusted Local Property Experts</h2>
+      <p>With over 40 years of experience serving the community, we understand the local market better than anyone. Our friendly team is dedicated to making your property journey smooth, stress-free, and successful.</p>
+      <div class="stats">
+        <div class="stat-item">
+          <h3>40+</h3>
+          <p>Years Experience</p>
+        </div>
+        <div class="stat-item">
+          <h3>2,500+</h3>
+          <p>Homes Sold</p>
+        </div>
+        <div class="stat-item">
+          <h3>98%</h3>
+          <p>Happy Clients</p>
+        </div>
+        <div class="stat-item">
+          <h3>3</h3>
+          <p>Local Offices</p>
+        </div>
+      </div>
+      <a href="#" class="btn-primary">Meet Our Team →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner" id="valuation">
+  <h2>Ready to Get Started?</h2>
+  <p>Book your free property valuation or register for new property alerts — it only takes a minute.</p>
+  <div class="cta-btns">
+    <a href="#" class="btn-primary">📅 Book Free Valuation</a>
+    <a href="#" class="btn-outline">🔔 Register for Alerts</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+
+    <!-- Brand + About -->
+    <div class="footer-brand">
+      <span class="logo">Nest<span style="color:var(--gold)">Find</span></span>
+      <p>Your trusted local estate agents serving Heston, Hounslow and Southall since 1982. We help you buy, sell, let and rent with confidence.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Facebook">&#x1F426;</a>
+        <a href="#" aria-label="Instagram">📸</a>
+        <a href="#" aria-label="Twitter/X">🐦</a>
+        <a href="#" aria-label="LinkedIn">💼</a>
+      </div>
+    </div>
+
+    <!-- Properties -->
+    <div class="footer-col">
+      <h4>Properties</h4>
+      <ul>
+        <li><a href="#">For Sale</a></li>
+        <li><a href="#">To Rent</a></li>
+        <li><a href="#">New Homes</a></li>
+        <li><a href="#">Commercial</a></li>
+        <li><a href="#">Sold Properties</a></li>
+      </ul>
+    </div>
+
+    <!-- Services -->
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Sell Your Home</a></li>
+        <li><a href="#">Let Your Property</a></li>
+        <li><a href="#">Free Valuation</a></li>
+        <li><a href="#">Mortgage Advice</a></li>
+        <li><a href="#">Property Management</a></li>
+      </ul>
+    </div>
+
+    <!-- Offices -->
+    <div class="footer-col">
+      <h4>Our Offices</h4>
+      <ul>
+        <li><strong style="color:rgba(255,255,255,.75)">Heston Office</strong></li>
+        <li><a href="#">📍 166 Heston Road, TW5 0QU</a></li>
+        <li><a href="#">📞 020 8570 4848</a></li>
+        <li style="margin-top:10px;"><strong style="color:rgba(255,255,255,.75)">Hounslow Office</strong></li>
+        <li><a href="#">📍 36 Bath Road, TW3 3EB</a></li>
+        <li><a href="#">📞 020 8570 4747</a></li>
+        <li style="margin-top:10px;"><strong style="color:rgba(255,255,255,.75)">Southall Office</strong></li>
+        <li><a href="#">📍 South Road, UB1 1SW</a></li>
+        <li><a href="#">📞 020 8571 4646</a></li>
+        <li style="margin-top:10px;"><a href="#">✉️ info@nestfind.co.uk</a></li>
+        <li><a href="#">⏰ Mon–Sat 9am–6pm</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Newsletter -->
+  <div class="footer-newsletter">
+    <div>
+      <strong style="color:#fff; font-size:1rem;">📬 Get the Latest Property Alerts</strong>
+      <p style="font-size:.85rem; margin-top:4px;">Be the first to know about new listings in your area.</p>
+    </div>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Enter your email address…" />
+      <button>Sign Up</button>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 NestFind Estate Agents &nbsp;|&nbsp;
+    <a href="#" style="color:rgba(255,255,255,.4); text-decoration:none;">Terms of Use</a> &nbsp;|&nbsp;
+    <a href="#" style="color:rgba(255,255,255,.4); text-decoration:none;">Privacy Policy</a> &nbsp;|&nbsp;
+    <a href="#" style="color:rgba(255,255,255,.4); text-decoration:none;">Cookie Policy</a>
+  </div>
+</footer>
