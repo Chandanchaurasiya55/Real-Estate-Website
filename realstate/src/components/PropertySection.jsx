@@ -74,6 +74,42 @@ export default function PropertySection() {
       badge: 'To Rent',
       image: 'https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=600&auto=format&fit=crop',
       type: 'rent'
+    },
+    {
+      id: 7,
+      price: '£625,000',
+      title: '4-Bed Townhouse',
+      location: 'Hayes, UB3',
+      beds: 4,
+      baths: 2,
+      feature: 'Terrace',
+      badge: 'For Sale',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop',
+      type: 'sale'
+    },
+    {
+      id: 8,
+      price: '£550,000',
+      title: '3-Bed Corner House',
+      location: 'Uxbridge, UB8',
+      beds: 3,
+      baths: 2,
+      feature: 'Balcony',
+      badge: 'For Sale',
+      image: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&auto=format&fit=crop',
+      type: 'sale'
+    },
+    {
+      id: 9,
+      price: '£1,500 / mo',
+      title: '2-Bed Luxury Flat',
+      location: 'Hounslow, TW4',
+      beds: 2,
+      baths: 2,
+      feature: 'Gym Access',
+      badge: 'To Rent',
+      image: 'https://images.unsplash.com/photo-1545324418-cc1a0ca31c60?w=600&auto=format&fit=crop',
+      type: 'rent'
     }
   ]
 
@@ -86,7 +122,10 @@ export default function PropertySection() {
       </div>
       <div className="cards-grid">
         {properties.map(prop => (
-          <PropertyCard key={prop.id} property={prop} />
+          <PropertyCard 
+            key={prop.id} 
+            property={prop}
+          />
         ))}
       </div>
       <div style={{textAlign: 'center', marginTop: '36px'}}>
