@@ -302,6 +302,10 @@ nav:hover {
   overflow: hidden;
   display: flex;
   align-items: center;
+  z-index: 0;
+  contain: layout style paint;
+  will-change: transform;
+  clip-path: inset(0);
 }
 
 .hero::before {
@@ -324,6 +328,8 @@ nav:hover {
   object-fit: cover;
   object-position: center;
   animation: zoom 20s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
 }
 
 @keyframes zoom {
@@ -470,6 +476,8 @@ nav:hover {
   justify-content: center;
   position: relative;
   overflow: hidden;
+  z-index: 10;
+  margin-top: -5px;
 }
 
 .search-section::before {
@@ -581,6 +589,7 @@ section {
   padding: 80px 32px;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .section-label {

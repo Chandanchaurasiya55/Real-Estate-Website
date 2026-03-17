@@ -14,10 +14,11 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <div className="hero" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
+    <div className="hero">
       <img 
         src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&auto=format&fit=crop" 
-        alt="Beautiful modern home" 
+        alt="Beautiful modern home"
+        style={{ transform: `translateY(${scrollY * 0.5}px)` }}
       />
       <div className="hero-overlay"></div>
       <div className="hero-content">
