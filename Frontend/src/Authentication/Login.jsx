@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import './Login.css'
+import '../styles/Login.css'
 
 export default function Login() {
   const navigate = useNavigate()

@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import './PropertyDetail.css'
+import '../styles/PropertyDetail.css'
 
 export default function PropertyDetail() {
   const { id } = useParams()

@@ -1,3 +1,4 @@
+import '../styles/Properties.css'
 import Navbar from '../components/Navbar'
 import PropertySection from '../components/PropertySection'
 import Footer from '../components/Footer'

@@ -1,3 +1,4 @@
+import '../styles/Services.css'
 import Navbar from '../components/Navbar'
 import ServicesSection from '../components/ServicesSection'
 import Footer from '../components/Footer'
