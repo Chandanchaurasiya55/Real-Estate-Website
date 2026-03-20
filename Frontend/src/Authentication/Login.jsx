@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import '../styles/Login.css'
 
 export default function Login() {
@@ -48,7 +46,6 @@ export default function Login() {
 
   return (
     <>
-      <Navbar />
       <div className="login-container">
         <div className="login-wrapper">
           {/* Left Section - Info */}
@@ -173,7 +170,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

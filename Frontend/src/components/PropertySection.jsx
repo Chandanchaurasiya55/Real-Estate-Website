@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import PropertyCard from './PropertyCard'
 
-export default function PropertySection() {
+export default function PropertySection({ compact = false, ctaText = 'View All Properties' }) {
   const properties = [
     {
       id: 1,
@@ -114,12 +114,14 @@ export default function PropertySection() {
   ]
 
   return (
-    <section id="properties">
-      <div style={{textAlign: 'center', marginBottom: '40px'}}>
-        <div className="section-label">Latest Listings</div>
-        <h2 className="section-title">Featured Properties</h2>
-        <p className="section-sub" style={{margin: '0 auto'}}>Hand-picked homes from our latest listings across London and the surrounding areas.</p>
-      </div>
+    <section id="properties" className={compact ? 'property-section-compact' : ''}>
+      {!compact && (
+        <div style={{textAlign: 'center', marginBottom: '40px'}}>
+          <div className="section-label">Latest Listings</div>
+          <h2 className="section-title">Featured Properties</h2>
+          <p className="section-sub" style={{margin: '0 auto'}}>Hand-picked homes from our latest listings across London and the surrounding areas.</p>
+        </div>
+      )}
       <div className="cards-grid">
         {properties.map(prop => (
           <PropertyCard 
@@ -128,9 +130,11 @@ export default function PropertySection() {
           />
         ))}
       </div>
-      <div style={{textAlign: 'center', marginTop: '36px'}}>
-        <Link to="/properties" className="btn-primary" style={{textDecoration: 'none'}}>View All Properties</Link>
-      </div>
+      {!compact && (
+        <div style={{textAlign: 'center', marginTop: '36px'}}>
+          <Link to="/properties" className="btn-primary" style={{textDecoration: 'none'}}>{ctaText}</Link>
+        </div>
+      )}
     </section>
   )
 }

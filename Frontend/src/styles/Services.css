@@ -5,7 +5,7 @@
 }
 
 .services-header {
-  background: linear-gradient(135deg, var(--navy) 0%, #0d1729 100%);
+  background: linear-gradient(135deg, var(--navy) 0%, #111a24 100%);
   color: var(--white);
   padding: 80px 32px;
   text-align: center;
@@ -46,7 +46,7 @@
 .service-item:hover {
   border-color: var(--pink);
   transform: translateY(-8px);
-  box-shadow: 0 20px 48px rgba(224, 24, 92, 0.2);
+  box-shadow: 0 20px 48px rgba(47, 122, 120, 0.2);
 }
 
 .service-item-icon {
@@ -80,3 +80,4 @@
     padding: 40px 20px;
   }
 }
+

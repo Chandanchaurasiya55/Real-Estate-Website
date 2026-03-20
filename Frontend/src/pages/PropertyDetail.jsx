@@ -1,7 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import '../styles/PropertyDetail.css'
 
 export default function PropertyDetail() {
@@ -170,16 +168,12 @@ export default function PropertyDetail() {
 
   if (!property) {
     return (
-      <>
-        <Navbar />
-        <div className="detail-not-found">
-          <h1>Property Not Found</h1>
-          <button onClick={() => navigate('/')} className="btn-primary">
-            ← Back to Home
-          </button>
-        </div>
-        <Footer />
-      </>
+      <div className="detail-not-found">
+        <h1>Property Not Found</h1>
+        <button onClick={() => navigate('/')} className="btn-primary">
+          ← Back to Home
+        </button>
+      </div>
     )
   }
 
@@ -190,8 +184,6 @@ export default function PropertyDetail() {
 
   return (
     <>
-      <Navbar />
-      
       {/* Hero Section */}
       <div className="detail-hero">
         <img src={property.image} alt={property.title} />
@@ -349,8 +341,6 @@ export default function PropertyDetail() {
           </div>
         </section>
       )}
-
-      <Footer />
     </>
   )
 }

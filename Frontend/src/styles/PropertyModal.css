@@ -1,9 +1,9 @@
 /* ── CSS VARIABLES ── */
 :root {
-  --navy: #1a2744;
-  --pink: #e0185c;
-  --purple: #9333ea;
-  --gold: #c9a84c;
+  --navy: #1c2430;
+  --pink: #2f7a78;
+  --purple: #8fbf7f;
+  --gold: #d3a35f;
   --light: #f7f6f2;
   --white: #ffffff;
   --gray: #6b7280;
@@ -68,7 +68,7 @@
   height: 40px;
   border: none;
   border-radius: 50%;
-  background: rgba(224, 24, 92, 0.9);
+  background: rgba(47, 122, 120, 0.9);
   color: white;
   font-size: 1.5rem;
   cursor: pointer;
@@ -121,7 +121,7 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  background: linear-gradient(135deg, var(--navy), #0d1729);
+  background: linear-gradient(135deg, var(--navy), #111a24);
   color: white;
   padding: 8px 16px;
   border-radius: 25px;
@@ -133,7 +133,7 @@
 }
 
 .modal-badge.rent {
-  background: linear-gradient(135deg, var(--pink), #d4125a);
+  background: linear-gradient(135deg, var(--pink), #2a6664);
 }
 
 .modal-details-section {
@@ -218,7 +218,7 @@
 }
 
 .modal-btn {
-  background: linear-gradient(135deg, var(--pink), #d4125a);
+  background: linear-gradient(135deg, var(--pink), #2a6664);
   color: white;
   border: none;
   padding: 14px 28px;
@@ -227,13 +227,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(224, 24, 92, 0.3);
+  box-shadow: 0 6px 20px rgba(47, 122, 120, 0.3);
   align-self: flex-start;
 }
 
 .modal-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(224, 24, 92, 0.5);
+  box-shadow: 0 10px 30px rgba(47, 122, 120, 0.5);
 }
 
 /* Related Properties */
@@ -266,7 +266,7 @@
 }
 
 .related-card:hover {
-  box-shadow: 0 8px 24px rgba(224, 24, 92, 0.15);
+  box-shadow: 0 8px 24px rgba(47, 122, 120, 0.15);
   transform: translateY(-4px);
   border-color: var(--pink);
 }
@@ -368,3 +368,4 @@
     font-size: 1.2rem;
   }
 }
+

@@ -1,67 +1,163 @@
+import { useState } from 'react'
 import '../styles/Contact.css'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+
+const initialForm = {
+  fullName: '',
+  email: '',
+  phone: '',
+  inquiryType: 'Buying',
+  message: '',
+}
 
 export default function Contact() {
+  const [formData, setFormData] = useState(initialForm)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+
+  function handleChange(event) {
+    const { name, value } = event.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    setError('')
+    setSuccess('')
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    if (!formData.fullName.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setError('Please fill in your name, email, and message.')
+      return
+    }
+
+    if (!formData.email.includes('@')) {
+      setError('Please enter a valid email address.')
+      return
+    }
+
+    setSuccess('Thanks, your message has been sent. Our advisor will contact you soon.')
+    setFormData(initialForm)
+  }
+
   return (
-    <>
-      <Navbar />
-      <div style={{padding: '120px 32px'}}>
-        <div style={{maxWidth: '600px', margin: '0 auto', textAlign: 'center'}}>
-          <h1 style={{fontSize: '2.8rem', marginBottom: '24px', color: 'var(--navy)'}}>Get In Touch</h1>
-          <p style={{color: 'var(--gray)', fontSize: '1.05rem', marginBottom: '40px', lineHeight: '1.6'}}>
-            Have questions about our properties or services? Contact us today and our team will be happy to help.
+    <main className="contact-page">
+      <section className="contact-hero">
+        <div className="contact-hero-copy">
+          <p className="contact-kicker">Contact Us</p>
+          <h1>Talk To A Local Property Advisor</h1>
+          <p>
+            Whether you are buying, renting, or selling, our team can guide you with clear steps and quick answers.
           </p>
-          
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px', marginBottom: '48px'}}>
-            <div style={{padding: '24px', border: '1.5px solid var(--border)', borderRadius: '12px'}}>
-              <div style={{fontSize: '2rem', marginBottom: '12px'}}>📍</div>
-              <h3 style={{marginBottom: '8px', color: 'var(--navy)'}}>Heston Office</h3>
-              <p style={{color: 'var(--gray)', fontSize: '.9rem'}}>166 Heston Road, TW5 0QU</p>
-              <p style={{color: 'var(--gray)', fontSize: '.9rem'}}>020 8570 4848</p>
-            </div>
-            
-            <div style={{padding: '24px', border: '1.5px solid var(--border)', borderRadius: '12px'}}>
-              <div style={{fontSize: '2rem', marginBottom: '12px'}}>📍</div>
-              <h3 style={{marginBottom: '8px', color: 'var(--navy)'}}>Hounslow Office</h3>
-              <p style={{color: 'var(--gray)', fontSize: '.9rem'}}>36 Bath Road, TW3 3EB</p>
-              <p style={{color: 'var(--gray)', fontSize: '.9rem'}}>020 8570 4747</p>
-            </div>
-            
-            <div style={{padding: '24px', border: '1.5px solid var(--border)', borderRadius: '12px'}}>
-              <div style={{fontSize: '2rem', marginBottom: '12px'}}>📍</div>
-              <h3 style={{marginBottom: '8px', color: 'var(--navy)'}}>Southall Office</h3>
-              <p style={{color: 'var(--gray)', fontSize: '.9rem'}}>South Road, UB1 1SW</p>
-              <p style={{color: 'var(--gray)', fontSize: '.9rem'}}>020 8571 4646</p>
-            </div>
+          <div className="contact-quick-stats">
+            <article>
+              <h3>3 Offices</h3>
+              <p>Across West London</p>
+            </article>
+            <article>
+              <h3>24h</h3>
+              <p>Typical Response Time</p>
+            </article>
+            <article>
+              <h3>4.8/5</h3>
+              <p>Client Satisfaction</p>
+            </article>
+          </div>
+        </div>
+        <div className="contact-hero-card">
+          <h2>Visit Our Offices</h2>
+          <ul>
+            <li>
+              <strong>Heston Office</strong>
+              <span>166 Heston Road, TW5 0QU</span>
+              <span>020 8570 4848</span>
+            </li>
+            <li>
+              <strong>Hounslow Office</strong>
+              <span>36 Bath Road, TW3 3EB</span>
+              <span>020 8570 4747</span>
+            </li>
+            <li>
+              <strong>Southall Office</strong>
+              <span>South Road, UB1 1SW</span>
+              <span>020 8571 4646</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="contact-form-wrap">
+        <div className="contact-form-header">
+          <h2>Send Us A Message</h2>
+          <p>Share your requirement and our expert will get back with tailored options.</p>
+        </div>
+
+        <form className="contact-form-ui" onSubmit={handleSubmit} noValidate>
+          <div className="contact-grid-2">
+            <label>
+              Full Name
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Enter your full name"
+                required
+              />
+            </label>
+            <label>
+              Email Address
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                required
+              />
+            </label>
           </div>
 
-          <form style={{display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '400px', margin: '0 auto'}}>
-            <input 
-              type="text" 
-              placeholder="Your Name" 
-              style={{padding: '12px 16px', border: '1.5px solid var(--border)', borderRadius: '8px', fontSize: '.95rem'}}
+          <div className="contact-grid-2">
+            <label>
+              Phone Number
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Optional"
+              />
+            </label>
+            <label>
+              Inquiry Type
+              <select name="inquiryType" value={formData.inquiryType} onChange={handleChange}>
+                <option>Buying</option>
+                <option>Renting</option>
+                <option>Selling</option>
+                <option>Valuation</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Your Message
+            <textarea
+              name="message"
+              rows="6"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Tell us what kind of property or service you are looking for"
+              required
             />
-            <input 
-              type="email" 
-              placeholder="Your Email" 
-              style={{padding: '12px 16px', border: '1.5px solid var(--border)', borderRadius: '8px', fontSize: '.95rem'}}
-            />
-            <textarea 
-              placeholder="Your Message" 
-              rows="5"
-              style={{padding: '12px 16px', border: '1.5px solid var(--border)', borderRadius: '8px', fontSize: '.95rem', fontFamily: 'DM Sans, sans-serif'}}
-            ></textarea>
-            <button 
-              type="submit"
-              style={{padding: '12px 28px', background: 'var(--pink)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', fontSize: '.95rem'}}
-            >
-              Send Message
-            </button>
-          </form>
-        </div>
-      </div>
-      <Footer />
-    </>
+          </label>
+
+          {error && <p className="contact-feedback error">{error}</p>}
+          {success && <p className="contact-feedback success">{success}</p>}
+
+          <button type="submit" className="contact-submit-btn">
+            Send Message
+          </button>
+        </form>
+      </section>
+    </main>
   )
 }
