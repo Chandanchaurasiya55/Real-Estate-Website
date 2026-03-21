@@ -1,7 +1,7 @@
 import '../styles/Properties.css'
 import PropertySection from '../components/PropertySection'
 
-export default function Properties() {
+function Properties() {
   return (
     <>
       <header className="listing-hero">
@@ -40,3 +40,6 @@ export default function Properties() {
     </>
   )
 }
+
+
+export default Properties;

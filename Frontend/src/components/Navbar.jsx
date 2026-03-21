@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-import { BUY_MENU_ITEMS } from '../data/buyPages'
+import { BUY_MENU_ITEMS } from '../pages/BuyPage'
+import { RENT_MENU_ITEMS } from '../pages/RentPage'
+import '../styles/Nav.css'
 
 const SELL_MENU_ITEMS = [
   { label: 'Free Valuation', to: '/contact' },
@@ -9,14 +11,16 @@ const SELL_MENU_ITEMS = [
   { label: 'Book Consultation', to: '/contact' },
 ]
 
-export default function Navbar() {
+function Navbar() {
   const location = useLocation()
   const buyDropdownRef = useRef(null)
   const sellDropdownRef = useRef(null)
   const letDropdownRef = useRef(null)
+  const rentDropdownRef = useRef(null)
   const [buyDropdownOpen, setBuyDropdownOpen] = useState(false)
   const [sellDropdownOpen, setSellDropdownOpen] = useState(false)
   const [letDropdownOpen, setLetDropdownOpen] = useState(false)
+  const [rentDropdownOpen, setRentDropdownOpen] = useState(false)
 
   useEffect(() => {
     function handleOutsideClick(event) {
@@ -29,6 +33,9 @@ export default function Navbar() {
       if (letDropdownRef.current && !letDropdownRef.current.contains(event.target)) {
         setLetDropdownOpen(false)
       }
+      if (rentDropdownRef.current && !rentDropdownRef.current.contains(event.target)) {
+        setRentDropdownOpen(false)
+      }
     }
 
     document.addEventListener('mousedown', handleOutsideClick)
@@ -39,9 +46,16 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
-    setBuyDropdownOpen(false)
-    setSellDropdownOpen(false)
-    setLetDropdownOpen(false)
+    const resetDropdowns = window.setTimeout(() => {
+      setBuyDropdownOpen(false)
+      setSellDropdownOpen(false)
+      setLetDropdownOpen(false)
+      setRentDropdownOpen(false)
+    }, 0)
+
+    return () => {
+      window.clearTimeout(resetDropdowns)
+    }
   }, [location.pathname])
 
   return (
@@ -76,7 +90,36 @@ export default function Navbar() {
             </div>
           )}
         </li>
-        <li><Link to="/rent" style={{textDecoration: 'none'}}> Rent</Link></li>
+        <li className="nav-dropdown" ref={rentDropdownRef}>
+          <button
+            type="button"
+            className="nav-dropdown-toggle"
+            onClick={() => setRentDropdownOpen((prev) => !prev)}
+            aria-expanded={rentDropdownOpen}
+            aria-haspopup="menu"
+          >
+            <span className="nav-dropdown-label">Rent</span>
+            <span className={`dropdown-chevron ${rentDropdownOpen ? 'open' : ''}`} aria-hidden="true"></span>
+          </button>
+          {rentDropdownOpen && (
+            <div className="dropdown-menu" role="menu">
+              {RENT_MENU_ITEMS.map((item) => {
+                const to = item.slug === 'properties-to-let' ? '/rent' : `/rent/${item.slug}`
+
+                return (
+                  <Link
+                    key={item.slug}
+                    to={to}
+                    className={location.pathname === to ? 'active-dropdown-link' : ''}
+                    onClick={() => setRentDropdownOpen(false)}
+                  >
+                    {item.title}
+                  </Link>
+                )
+              })}
+            </div>
+          )}
+        </li>
         <li className="nav-dropdown" ref={sellDropdownRef}>
           <button
             type="button"
@@ -134,3 +177,6 @@ export default function Navbar() {
     </nav>
   )
 }
+
+
+export default Navbar;

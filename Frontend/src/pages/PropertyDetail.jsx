@@ -154,7 +154,7 @@ export default function PropertyDetail() {
       baths: 2,
       feature: 'Gym Access',
       badge: 'To Rent',
-      image: 'https://images.unsplash.com/photo-1545324418-cc1a0ca31c60?w=1200&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop',
       type: 'rent',
       description: 'Premium 2-bed luxury flat with building amenities. Complete with gym, swimming pool, and covered parking.',
       fullDescription: 'An exquisite 2-bedroom luxury flat in Hounslow featuring premium finishes and exclusive building amenities. Residents enjoy access to a state-of-the-art gym, Olympic-size swimming pool, concierge service, and 24-hour security. Perfect for discerning professionals seeking comfort and luxury.',

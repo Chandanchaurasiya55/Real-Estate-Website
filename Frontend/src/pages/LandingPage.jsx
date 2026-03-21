@@ -1,5 +1,5 @@
-import '../styles/Home.css'
-import HeroSection from '../components/HeroSection'
+import '../styles/LandingPage.css'
+import HomePage from '../components/HomePage'
 import SearchBar from '../components/SearchBar'
 import PropertySection from '../components/PropertySection'
 import ServicesSection from '../components/ServicesSection'
@@ -9,7 +9,7 @@ import CtaBanner from '../components/CtaBanner'
 export default function Home() {
   return (
     <>
-      <HeroSection />
+      <HomePage />
       <SearchBar />
       <PropertySection />
       <ServicesSection />

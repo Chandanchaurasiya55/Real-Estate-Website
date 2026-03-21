@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
-export default function HeroSection() {
+function HeroSection() {
   const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
@@ -36,3 +36,6 @@ export default function HeroSection() {
     </div>
   )
 }
+
+
+export default HeroSection;

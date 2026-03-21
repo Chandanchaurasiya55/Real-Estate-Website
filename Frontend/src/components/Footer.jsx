@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-export default function Footer() {
+function Footer() {
   return (
     <footer>
       <div className="footer-grid">
@@ -75,3 +75,6 @@ export default function Footer() {
     </footer>
   )
 }
+
+
+export default Footer;

@@ -1,7 +1,7 @@
 import '../styles/Services.css'
 import ServicesSection from '../components/ServicesSection'
 
-export default function Services() {
+function Services() {
   return (
     <>
       <div style={{paddingTop: '80px', textAlign: 'center', marginBottom: '40px'}}>
@@ -12,3 +12,5 @@ export default function Services() {
     </>
   )
 }
+
+export default Services;
