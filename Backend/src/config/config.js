@@ -12,11 +12,15 @@ if(!process.env.MONGODB_URL){
 if(!process.env.jwtSecret){
   throw new Error("jwtSecret is not defined in environment variables");
 }
+if(!process.env.refreshSecret){
+  throw new Error("refreshSecret is not defined in environment variables");
+}
 
 const config = {
   port: process.env.PORT || 5000,
   MONGODB_URL: process.env.MONGODB_URL,
   jwtSecret: process.env.jwtSecret,
+  refreshSecret: process.env.refreshSecret,
 };
 
 export default config;
