@@ -1,4 +1,3 @@
-import '../styles/LandingPage.css'
 import HomePage from '../components/HomePage'
 import SearchBar from '../components/SearchBar'
 import PropertySection from '../components/PropertySection'

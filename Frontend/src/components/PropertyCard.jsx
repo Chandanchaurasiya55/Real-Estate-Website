@@ -6,13 +6,13 @@ export default function PropertyCard({ property }) {
   const navigate = useNavigate()
 
   const getEmoji = (feature) => {
-    switch(feature) {
-      case 'Garage': return '🚗';
-      case 'Pool': return '🏊';
-      case 'Parking': return '🅿️';
-      case 'Garden': return '🌿';
-      case 'Large Plot': return '🏡';
-      default: return '🚇';
+    switch (feature) {
+      case 'Garage': return '🚗'
+      case 'Pool': return '🏊'
+      case 'Parking': return '🅿️'
+      case 'Garden': return '🌳'
+      case 'Large Plot': return '🌿'
+      default: return '🏡'
     }
   }
 
@@ -21,32 +21,34 @@ export default function PropertyCard({ property }) {
     setIsFavorite(!isFavorite)
   }
 
-  const handleCardClick = () => {
-    navigate(`/property/${property.id}`)
-  }
+  const handleCardClick = () => navigate(`/property/${property.id}`)
 
   return (
-    <div className="card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
-      <div className="card-img">
-        <img src={property.image} alt={property.title} />
-        <span className={`card-badge ${property.type === 'rent' ? 'rent' : ''}`}>
+    <div
+      className="group relative cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl"
+      onClick={handleCardClick}
+    >
+      <div className="relative h-48 w-full overflow-hidden">
+        <img src={property.image} alt={property.title} className="h-full w-full object-cover object-center" />
+        <span className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-bold ${property.type === 'rent' ? 'bg-blue-500 text-white' : 'bg-emerald-500 text-white'}`}>
           {property.badge}
         </span>
-        <button 
-          className="card-heart" 
+        <button
           onClick={toggleFavorite}
           title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          className="absolute right-3 top-3 rounded-full bg-white/90 p-1.5 text-lg shadow-lg transition hover:scale-110"
         >
           {isFavorite ? '❤️' : '🤍'}
         </button>
       </div>
-      <div className="card-body">
-        <div className="card-price">{property.price}</div>
-        <div className="card-title">{property.title}</div>
-        <div className="card-loc">📍 {property.location}</div>
-        <div className="card-features">
+
+      <div className="space-y-2 p-4">
+        <div className="text-xl font-extrabold text-slate-900">{property.price}</div>
+        <div className="text-lg font-semibold text-slate-800">{property.title}</div>
+        <div className="text-sm text-slate-500">📍 {property.location}</div>
+        <div className="flex flex-wrap gap-2 text-sm text-slate-700">
           <span>🛏 {property.beds} Beds</span>
-          <span>🚿 {property.baths} Baths</span>
+          <span>🛁 {property.baths} Baths</span>
           <span>{getEmoji(property.feature)} {property.feature}</span>
         </div>
       </div>

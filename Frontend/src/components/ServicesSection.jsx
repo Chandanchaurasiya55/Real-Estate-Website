@@ -35,15 +35,18 @@ export default function ServicesSection() {
   ]
 
   return (
-    <section className="services-bg">
-      <div style={{textAlign: 'center', marginBottom: '40px'}}>
-        <div className="section-label">What We Offer</div>
-        <h2 className="section-title">Our Services</h2>
-      </div>
-      <div className="services-grid">
-        {services.map((service, idx) => (
-          <ServiceCard key={idx} service={service} />
-        ))}
+    <section className="bg-slate-900/70 border-t border-slate-800 py-12">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 text-center">
+          <p className="text-sm font-semibold uppercase tracking-widest text-cyan-400">What We Offer</p>
+          <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Services Designed for Modern Homebuyers and Landlords</h2>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-6">
+          {services.map((service, idx) => (
+            <ServiceCard key={idx} service={service} />
+          ))}
+        </div>
       </div>
     </section>
   )

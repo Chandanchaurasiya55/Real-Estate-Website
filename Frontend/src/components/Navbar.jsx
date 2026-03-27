@@ -1,8 +1,5 @@
-import { Link, useLocation } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
-import { BUY_MENU_ITEMS } from '../pages/BuyPage'
-import { RENT_MENU_ITEMS } from '../pages/RentPage'
-import '../styles/Nav.css'
+import { Link } from 'react-router-dom'
+import { BUY_MENU_ITEMS, RENT_MENU_ITEMS } from '../data/menuItems'
 
 const SELL_MENU_ITEMS = [
   { label: 'Free Valuation', to: '/contact' },
@@ -12,171 +9,60 @@ const SELL_MENU_ITEMS = [
 ]
 
 function Navbar() {
-  const location = useLocation()
-  const buyDropdownRef = useRef(null)
-  const sellDropdownRef = useRef(null)
-  const letDropdownRef = useRef(null)
-  const rentDropdownRef = useRef(null)
-  const [buyDropdownOpen, setBuyDropdownOpen] = useState(false)
-  const [sellDropdownOpen, setSellDropdownOpen] = useState(false)
-  const [letDropdownOpen, setLetDropdownOpen] = useState(false)
-  const [rentDropdownOpen, setRentDropdownOpen] = useState(false)
-
-  useEffect(() => {
-    function handleOutsideClick(event) {
-      if (buyDropdownRef.current && !buyDropdownRef.current.contains(event.target)) {
-        setBuyDropdownOpen(false)
-      }
-      if (sellDropdownRef.current && !sellDropdownRef.current.contains(event.target)) {
-        setSellDropdownOpen(false)
-      }
-      if (letDropdownRef.current && !letDropdownRef.current.contains(event.target)) {
-        setLetDropdownOpen(false)
-      }
-      if (rentDropdownRef.current && !rentDropdownRef.current.contains(event.target)) {
-        setRentDropdownOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleOutsideClick)
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick)
-    }
-  }, [])
-
-  useEffect(() => {
-    const resetDropdowns = window.setTimeout(() => {
-      setBuyDropdownOpen(false)
-      setSellDropdownOpen(false)
-      setLetDropdownOpen(false)
-      setRentDropdownOpen(false)
-    }, 0)
-
-    return () => {
-      window.clearTimeout(resetDropdowns)
-    }
-  }, [location.pathname])
-
   return (
-    <nav>
-      <Link to="/" className="logo" style={{textDecoration: 'none', cursor: 'pointer'}}>
-        🏠 Dum<span>my</span>
-      </Link>
-      <ul className="nav-links">
-        <li className="nav-dropdown" ref={buyDropdownRef}>
-          <button
-            type="button"
-            className="nav-dropdown-toggle"
-            onClick={() => setBuyDropdownOpen((prev) => !prev)}
-            aria-expanded={buyDropdownOpen}
-            aria-haspopup="menu"
-          >
-            <span className="nav-dropdown-label">Buy</span>
-            <span className={`dropdown-chevron ${buyDropdownOpen ? 'open' : ''}`} aria-hidden="true"></span>
-          </button>
-          {buyDropdownOpen && (
-            <div className="dropdown-menu" role="menu">
-              {BUY_MENU_ITEMS.map((item) => (
-                <Link
-                  key={item.slug}
-                  to={`/buy/${item.slug}`}
-                  className={location.pathname === `/buy/${item.slug}` ? 'active-dropdown-link' : ''}
-                  onClick={() => setBuyDropdownOpen(false)}
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </div>
-          )}
-        </li>
-        <li className="nav-dropdown" ref={rentDropdownRef}>
-          <button
-            type="button"
-            className="nav-dropdown-toggle"
-            onClick={() => setRentDropdownOpen((prev) => !prev)}
-            aria-expanded={rentDropdownOpen}
-            aria-haspopup="menu"
-          >
-            <span className="nav-dropdown-label">Rent</span>
-            <span className={`dropdown-chevron ${rentDropdownOpen ? 'open' : ''}`} aria-hidden="true"></span>
-          </button>
-          {rentDropdownOpen && (
-            <div className="dropdown-menu" role="menu">
-              {RENT_MENU_ITEMS.map((item) => {
-                const to = item.slug === 'properties-to-let' ? '/rent' : `/rent/${item.slug}`
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-slate-800 bg-slate-900/95 backdrop-blur-md">
+      <div className="flex h-16 mx-1.5 items-center justify-between px-2 sm:px-3 lg:px-4">
+        <div className="flex gap-3">
+          <Link to="/" className="text-xl font-extrabold tracking-tight text-white">
+            🏠 Dum<span className="text-amber-300">my</span>
+          </Link>
+        </div>
 
-                return (
+        <div className="hidden items-center justify-end gap-2 text-sm font-medium text-slate-200 lg:flex">
+          <nav className="flex items-center gap-2">
+            <div className="group relative">
+              <span className="rounded-md px-3 py-2 hover:bg-slate-700 cursor-pointer">Buy</span>
+              <div className="invisible absolute left-0 top-full z-50 mt-1 w-56 rounded-lg border border-slate-700 bg-slate-900 p-2 shadow-lg transition duration-150 group-hover:visible group-hover:opacity-100">
+                {BUY_MENU_ITEMS.map((item) => (
                   <Link
                     key={item.slug}
-                    to={to}
-                    className={location.pathname === to ? 'active-dropdown-link' : ''}
-                    onClick={() => setRentDropdownOpen(false)}
+                    to={`/buy/${item.slug}`}
+                    className="block rounded-md px-3 py-2 text-sm text-slate-100 hover:bg-slate-800"
                   >
                     {item.title}
                   </Link>
-                )
-              })}
+                ))}
+              </div>
             </div>
-          )}
-        </li>
-        <li className="nav-dropdown" ref={sellDropdownRef}>
-          <button
-            type="button"
-            className="nav-dropdown-toggle"
-            onClick={() => setSellDropdownOpen((prev) => !prev)}
-            aria-expanded={sellDropdownOpen}
-            aria-haspopup="menu"
-          >
-            <span className="nav-dropdown-label">Sell</span>
-            <span className={`dropdown-chevron ${sellDropdownOpen ? 'open' : ''}`} aria-hidden="true"></span>
-          </button>
-          {sellDropdownOpen && (
-            <div className="dropdown-menu" role="menu">
-              {SELL_MENU_ITEMS.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.to}
-                  className={location.pathname === item.to ? 'active-dropdown-link' : ''}
-                  onClick={() => setSellDropdownOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-          )}
-        </li>
-        
-        <li className="nav-dropdown" ref={letDropdownRef}>
-          <button
-            type="button"
-            className="nav-dropdown-toggle"
-            onClick={() => setLetDropdownOpen((prev) => !prev)}
-            aria-expanded={letDropdownOpen}
-            aria-haspopup="menu"
-          >
-            <span className="nav-dropdown-label">Let</span>
-            <span className={`dropdown-chevron ${letDropdownOpen ? 'open' : ''}`} aria-hidden="true"></span>
-          </button>
-          {letDropdownOpen && (
-            <div className="dropdown-menu" role="menu">
-              <Link to="/properties" style={{textDecoration: 'none'}}>Landloards Guide</Link>
-              <Link to="/properties" style={{textDecoration: 'none'}}>Landloards Services & Fees</Link>
-              <Link to="/properties" style={{textDecoration: 'none'}}>EPC</Link>
-              <Link to="/properties" style={{textDecoration: 'none'}}>Landloards Reviews</Link>
-               <Link to="/properties" style={{textDecoration: 'none'}}>Book a Valuation</Link>
-            </div>
-          )}
-        </li>
 
-        <li><Link to="/about" style={{textDecoration: 'none'}}> About</Link></li>
-        <li><Link to="/contact" style={{textDecoration: 'none'}}> Contact</Link></li>
-        <li><Link to="/properties" className="nav-cta" style={{textDecoration: 'none'}}>🔍 Property Search</Link></li>
-        <li><Link to="/login" className="nav-login-btn" style={{textDecoration: 'none'}}> Login</Link></li>
-      </ul>
+            <div className="group relative">
+              <span className="rounded-md px-3 py-2 hover:bg-slate-700 cursor-pointer">Rent</span>
+              <div className="invisible absolute left-0 top-full z-50 mt-1 w-56 rounded-lg border border-slate-700 bg-slate-900 p-2 shadow-lg transition duration-150 group-hover:visible group-hover:opacity-100">
+                {RENT_MENU_ITEMS.map((item) => (
+                  <Link
+                    key={item.slug}
+                    to={`/rent/${item.slug}`}
+                    className="block rounded-md px-3 py-2 text-sm text-slate-100 hover:bg-slate-800"
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <Link to="/services" className="rounded-md px-3 py-2 hover:bg-slate-700">Sell</Link>
+            <Link to="/rent" className="rounded-md px-3 py-2 hover:bg-slate-700">Let</Link>
+            <Link to="/about" className="rounded-md px-3 py-2 hover:bg-slate-700">About</Link>
+            <Link to="/contact" className="rounded-md px-3 py-2 hover:bg-slate-700">Contact</Link>
+          </nav>
+          <div className="ml-2 flex items-center gap-2">
+            <Link to="/properties" className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-cyan-500">🔍 Property Search</Link>
+            <Link to="/login" className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-500">Login</Link>
+          </div>
+        </div>
+      </div>
     </nav>
   )
 }
-
 
 export default Navbar;

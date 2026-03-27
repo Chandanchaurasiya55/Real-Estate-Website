@@ -1,37 +1,9 @@
-import { Link, useParams } from 'react-router-dom'
+﻿import { Link, useParams } from 'react-router-dom'
 import { useMemo, useState } from 'react'
-import '../styles/RentPage.css'
+import { RENT_MENU_ITEMS } from '../data/menuItems'
 
-export const RENT_MENU_ITEMS = [
-  {
-    slug: 'properties-to-let',
-    title: 'Properties To Let',
-    description: 'Browse rental homes and apartments across the areas you want to live in.',
-  },
-  {
-    slug: 'commercial-properties',
-    title: 'Commercial Properties',
-    description: 'Explore retail, office, and mixed-use spaces available for lease.',
-  },
-  {
-    slug: 'tenants-guide',
-    title: 'Tenants Guide',
-    description: 'Learn what to expect when renting, from applications to moving in.',
-  },
-  {
-    slug: 'tenants-fees-terms',
-    title: 'Tenants Fees & Terms',
-    description: 'Understand deposits, fees, tenancy terms, and what you are paying for.',
-  },
-  {
-    slug: 'renting-reviews',
-    title: 'Renting Reviews',
-    description: 'See what tenants say about the rental process and local support.',
-  },
-]
-
-export function getRentPageBySlug(slug) {
-  return RENT_MENU_ITEMS.find((item) => item.slug === slug)
+function getRentPageBySlug(slug) {
+  return RENT_MENU_ITEMS.find((item) => item.slug === slug) || RENT_MENU_ITEMS[0]
 }
 
 const TENANT_CHECKLIST = [
@@ -43,18 +15,9 @@ const TENANT_CHECKLIST = [
 ]
 
 const COMMERCIAL_PANELS = [
-  {
-    title: 'Retail Units',
-    text: 'Prominent shopfronts and high-footfall locations for local businesses.',
-  },
-  {
-    title: 'Office Space',
-    text: 'Flexible office suites for growing teams, consultants, and remote hubs.',
-  },
-  {
-    title: 'Industrial Units',
-    text: 'Practical warehouse and light-industrial space for operations and storage.',
-  },
+  { title: 'Retail Units', text: 'Prominent shopfronts and high-footfall locations for local businesses.' },
+  { title: 'Office Space', text: 'Flexible office suites for growing teams, consultants, and remote hubs.' },
+  { title: 'Industrial Units', text: 'Practical warehouse and light-industrial space for operations and storage.' },
 ]
 
 const REVIEW_SAMPLE = [
@@ -71,43 +34,26 @@ const FEE_ITEMS = [
 ]
 
 function formatCurrency(value) {
-  return new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: 'GBP',
-    maximumFractionDigits: 0,
-  }).format(Number.isFinite(value) ? value : 0)
+  return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }).format(Number.isFinite(value) ? value : 0)
 }
 
 function estimateMoveInCost(monthlyRent, depositWeeks) {
-  if (!monthlyRent) {
-    return 0
-  }
-
+  if (!monthlyRent) return 0
   const weeklyRent = monthlyRent / 4.345
-  const deposit = weeklyRent * depositWeeks
-  return monthlyRent + deposit
+  return monthlyRent + weeklyRent * depositWeeks
 }
 
 function TenantGuideTool() {
   const [doneSteps, setDoneSteps] = useState([])
-
-  function toggleStep(step) {
-    setDoneSteps((prev) =>
-      prev.includes(step) ? prev.filter((item) => item !== step) : [...prev, step],
-    )
-  }
+  const toggleStep = (step) => setDoneSteps((prev) => (prev.includes(step) ? prev.filter((item) => item !== step) : [...prev, step]))
 
   return (
-    <div className="rent-tool-card">
-      <h2>Tenant Checklist</h2>
-      <ul className="rent-checklist">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="text-xl font-bold">Tenant Checklist</h2>
+      <ul className="mt-4 space-y-2">
         {TENANT_CHECKLIST.map((step) => (
           <li key={step}>
-            <button
-              type="button"
-              className={doneSteps.includes(step) ? 'checked' : ''}
-              onClick={() => toggleStep(step)}
-            >
+            <button onClick={() => toggleStep(step)} className={`w-full rounded-lg px-3 py-2 text-left ${doneSteps.includes(step) ? 'bg-cyan-100 text-cyan-800' : 'bg-slate-50 text-slate-700'}`}>
               {doneSteps.includes(step) ? '✔' : '○'} {step}
             </button>
           </li>
@@ -119,13 +65,13 @@ function TenantGuideTool() {
 
 function CommercialTool() {
   return (
-    <div className="rent-tool-card">
-      <h2>Commercial Rental Options</h2>
-      <div className="rent-feature-grid">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="text-xl font-bold">Commercial Rental Options</h2>
+      <div className="mt-4 grid gap-3 md:grid-cols-3">
         {COMMERCIAL_PANELS.map((panel) => (
-          <article key={panel.title}>
-            <h3>{panel.title}</h3>
-            <p>{panel.text}</p>
+          <article key={panel.title} className="rounded-lg border border-slate-200 p-3">
+            <h3 className="font-semibold">{panel.title}</h3>
+            <p className="text-sm text-slate-600">{panel.text}</p>
           </article>
         ))}
       </div>
@@ -136,52 +82,44 @@ function CommercialTool() {
 function FeesTool() {
   const [monthlyRent, setMonthlyRent] = useState(1600)
   const [depositWeeks, setDepositWeeks] = useState(5)
-  const estimatedMoveInCost = useMemo(
-    () => estimateMoveInCost(monthlyRent, depositWeeks),
-    [monthlyRent, depositWeeks],
-  )
+  const estimatedMoveInCost = useMemo(() => estimateMoveInCost(monthlyRent, depositWeeks), [monthlyRent, depositWeeks])
 
   return (
-    <div className="rent-tool-card">
-      <h2>Fees & Move-In Estimate</h2>
-      <div className="rent-tool-grid">
-        <label>
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="text-xl font-bold">Fees & Move-In Estimate</h2>
+      <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <label className="flex flex-col gap-1 text-sm">
           Monthly Rent
-          <input type="number" min="500" value={monthlyRent} onChange={(e) => setMonthlyRent(Number(e.target.value))} />
+          <input type="number" min="500" value={monthlyRent} onChange={(e) => setMonthlyRent(Number(e.target.value))} className="rounded-lg border border-slate-300 px-3 py-2" />
         </label>
-        <label>
+        <label className="flex flex-col gap-1 text-sm">
           Deposit Weeks
-          <input type="number" min="1" max="10" value={depositWeeks} onChange={(e) => setDepositWeeks(Number(e.target.value))} />
+          <input type="number" min="1" max="10" value={depositWeeks} onChange={(e) => setDepositWeeks(Number(e.target.value))} className="rounded-lg border border-slate-300 px-3 py-2" />
         </label>
       </div>
-      <ul className="rent-fee-list">
+      <ul className="mt-4 space-y-2 text-sm">
         {FEE_ITEMS.map((item) => (
-          <li key={item.label}>
-            <strong>{item.label}</strong>
-            <span>{item.value}</span>
-          </li>
+          <li key={item.label} className="flex justify-between border-b border-slate-200 pb-2"> <span>{item.label}</span> <strong>{item.value}</strong></li>
         ))}
       </ul>
-      <p className="rent-tool-result">Estimated move-in cost: {formatCurrency(estimatedMoveInCost)}</p>
+      <p className="mt-3 text-sm font-semibold">Estimated move-in cost: {formatCurrency(estimatedMoveInCost)}</p>
     </div>
   )
 }
 
 function ReviewsTool() {
-  const average = (
-    REVIEW_SAMPLE.reduce((sum, review) => sum + review.rating, 0) / REVIEW_SAMPLE.length
-  ).toFixed(1)
+  const average = (REVIEW_SAMPLE.reduce((sum, review) => sum + review.rating, 0) / REVIEW_SAMPLE.length).toFixed(1)
 
   return (
-    <div className="rent-tool-card">
-      <h2>Tenant Reviews</h2>
-      <p className="rent-tool-result">Average Rating: {average} / 5</p>
-      <div className="rent-reviews-grid">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="text-xl font-bold">Tenant Reviews</h2>
+      <p className="mt-2 text-sm">Average Rating: {average} / 5</p>
+      <div className="mt-4 space-y-3">
         {REVIEW_SAMPLE.map((review) => (
-          <article key={review.name}>
-            <h3>{review.name}</h3>
-            <p>{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</p>
-            <small>{review.note}</small>
+          <article key={review.name} className="rounded-lg border border-slate-200 p-3">
+            <h3 className="font-semibold">{review.name}</h3>
+            <p className="text-yellow-500">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</p>
+            <small className="text-slate-600">{review.note}</small>
           </article>
         ))}
       </div>
@@ -190,57 +128,44 @@ function ReviewsTool() {
 }
 
 function getPageTool(slug) {
-  if (slug === 'commercial-properties') {
-    return <CommercialTool />
-  }
-  if (slug === 'tenants-guide') {
-    return <TenantGuideTool />
-  }
-  if (slug === 'tenants-fees-terms') {
-    return <FeesTool />
-  }
-  if (slug === 'renting-reviews') {
-    return <ReviewsTool />
-  }
-  return null
+  if (slug === 'commercial-properties') return <CommercialTool />
+  if (slug === 'tenants-guide') return <TenantGuideTool />
+  if (slug === 'tenants-fees-terms') return <FeesTool />
+  if (slug === 'renting-reviews') return <ReviewsTool />
+  return <TenantGuideTool />
 }
 
 export default function RentPage() {
   const { slug } = useParams()
-  const page = getRentPageBySlug(slug)
-
-  if (!page) {
-    return (
-      <main className="rent-page">
-        <div className="rent-page-shell">
-          <h1>Page Not Found</h1>
-          <p>The page you are looking for does not exist in the Rent section.</p>
-          <Link className="rent-page-back" to="/rent">
-            Back to Rent
-          </Link>
-        </div>
-      </main>
-    )
-  }
+  const pageData = getRentPageBySlug(slug)
 
   return (
-    <main className="rent-page">
-      <div className="rent-page-shell">
-        <section className="rent-page-hero">
-          <p className="rent-page-eyebrow">Rent</p>
-          <h1>{page.title}</h1>
-          <p>{page.description}</p>
-          <div className="rent-page-actions">
-            <Link className="rent-page-back" to="/rent">
-              Properties To Let
-            </Link>
-            <Link className="rent-page-muted" to="/contact">
-              Contact Lettings Team
-            </Link>
-          </div>
-        </section>
-        {getPageTool(slug)}
+    <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mb-10 rounded-2xl bg-linear-to-r from-cyan-500 to-emerald-500 p-8 text-white shadow-lg">
+        <h1 className="text-4xl font-extrabold">{pageData.title}</h1>
+        <p className="mt-3 max-w-3xl text-lg">{pageData.description}</p>
       </div>
-    </main>
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">{getPageTool(slug)}</div>
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <h2 className="text-xl font-bold">More Guides</h2>
+            <ul className="mt-3 space-y-2 text-sm">
+              {RENT_MENU_ITEMS.map((item) => (
+                <li key={item.slug}>
+                  <Link className="text-cyan-600 hover:text-cyan-700" to={`/rent/${item.slug}`}>{item.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <h2 className="text-xl font-bold">Need Help?</h2>
+            <p className="mt-2 text-sm text-slate-600">Contact our lettings team for personalised advice.</p>
+            <button className="mt-4 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-500">Contact Us</button>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
