@@ -49,7 +49,11 @@ function Login() {
       if (!res.ok) throw new Error(data.message || "Login failed");
 
       // ✅ store user
-      localStorage.setItem("user", JSON.stringify(data.user));
+      const storedUser = {
+        ...data.user,
+        name: data.user?.name || data.user?.email?.split('@')[0] || 'User',
+      };
+      localStorage.setItem("user", JSON.stringify(storedUser));
 
       // ✅ store access token (IMPORTANT)
       if (data.accessToken) {
@@ -175,15 +179,6 @@ function Login() {
               <div className="flex-1 h-[1px] bg-gray-300" />
               OR
               <div className="flex-1 h-[1px] bg-gray-300" />
-            </div>
-
-            <div className="flex gap-3">
-              <button className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
-                🔵 Google
-              </button>
-              <button className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
-                📘 Facebook
-              </button>
             </div>
           </div>
           <div className="mt-6 text-center text-sm text-gray-500">

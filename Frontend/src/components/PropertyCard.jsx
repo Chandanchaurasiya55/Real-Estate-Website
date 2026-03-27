@@ -21,7 +21,48 @@ export default function PropertyCard({ property }) {
     setIsFavorite(!isFavorite)
   }
 
-  const handleCardClick = () => navigate(`/property/${property.id}`)
+  const handleCardClick = () => navigate(`/property/${property._id || property.id}`)
+
+  const defaultImage = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+    <svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="600" height="400" fill="#CBD5E1" />
+      <text x="50%" y="50%" text-anchor="middle" fill="#64748B" font-size="28" font-family="Arial, sans-serif" dy="0.35em">No Image Available</text>
+    </svg>
+  `);
+
+  const normalizeImage = (img) => {
+    if (!img) return '';
+    if (typeof img === 'string') {
+      const value = img.trim();
+      if (value.startsWith('data:') || value.startsWith('http://') || value.startsWith('https://')) {
+        return value;
+      }
+      if (/^[A-Za-z0-9+/=]+$/.test(value) && value.length > 120) {
+        return `data:image/jpeg;base64,${value}`;
+      }
+      return '';
+    }
+    const data = img.data || '';
+    return normalizeImage(data);
+  };
+
+  const getFirstImageFromList = (images) => {
+    if (!Array.isArray(images)) return '';
+    for (const entry of images) {
+      if (!entry) continue;
+      if (typeof entry === 'string') {
+        const normalized = normalizeImage(entry);
+        if (normalized) return normalized;
+      } else if (entry.data || entry.coverImage) {
+        const normalized = normalizeImage(entry.data || entry.coverImage);
+        if (normalized) return normalized;
+      }
+    }
+    return '';
+  };
+
+  const primaryImage = normalizeImage(property.coverImage) || getFirstImageFromList(property.images)
+    || normalizeImage(property.image) || defaultImage;
 
   return (
     <div
@@ -29,7 +70,7 @@ export default function PropertyCard({ property }) {
       onClick={handleCardClick}
     >
       <div className="relative h-48 w-full overflow-hidden">
-        <img src={property.image} alt={property.title} className="h-full w-full object-cover object-center" />
+        <img loading="eager" src={primaryImage} alt={property.title} className="h-full w-full object-cover object-center" />
         <span className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-bold ${property.type === 'rent' ? 'bg-blue-500 text-white' : 'bg-emerald-500 text-white'}`}>
           {property.badge}
         </span>
@@ -47,8 +88,8 @@ export default function PropertyCard({ property }) {
         <div className="text-lg font-semibold text-slate-800">{property.title}</div>
         <div className="text-sm text-slate-500">📍 {property.location}</div>
         <div className="flex flex-wrap gap-2 text-sm text-slate-700">
-          <span>🛏 {property.beds} Beds</span>
-          <span>🛁 {property.baths} Baths</span>
+          <span>🛏 {property.bedrooms || property.beds} Beds</span>
+          <span>🛁 {property.bathrooms || property.baths} Baths</span>
           <span>{getEmoji(property.feature)} {property.feature}</span>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL || import.meta.env.API_URL || "http://localhost:3000";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -35,6 +35,11 @@ function Register() {
       return;
     }
 
+    if (formData.name.length > 15) {
+      setError("Name must be 15 characters or less");
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -46,9 +51,19 @@ function Register() {
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (parseError) {
+          console.warn("Failed to parse JSON response:", parseError, "response text:", text);
+        }
+      }
 
-      if (!res.ok) throw new Error(data.message || "Registration failed");
+      if (!res.ok) {
+        throw new Error(data?.message || text || "Registration failed");
+      }
 
       // 🔥 auto login after register
       const adminData = {
@@ -136,8 +151,9 @@ function Register() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                maxLength={15}
                 className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#2f7a78]"
-                placeholder="Enter your name"
+                placeholder="Enter your name (max 15 chars)"
               />
             </div>
 
@@ -184,14 +200,6 @@ function Register() {
               <div className="flex-1 h-[1px] bg-gray-300" />
               OR
               <div className="flex-1 h-[1px] bg-gray-300" />
-            </div>
-            <div className="flex gap-3">
-              <button className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
-                🔵 Google
-              </button>
-              <button className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
-                📘 Facebook
-              </button>
             </div>
           </div>
 

@@ -9,6 +9,18 @@ const SELL_MENU_ITEMS = [
 ]
 
 function Navbar() {
+  const user = (() => {
+    const savedUser = localStorage.getItem('user')
+    if (!savedUser) return null
+
+    try {
+      return JSON.parse(savedUser)
+    } catch {
+      localStorage.removeItem('user')
+      return null
+    }
+  })()
+
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-slate-800 bg-slate-900/95 backdrop-blur-md">
       <div className="flex h-16 mx-1.5 items-center justify-between px-2 sm:px-3 lg:px-4">
@@ -57,7 +69,19 @@ function Navbar() {
           </nav>
           <div className="ml-2 flex items-center gap-2">
             <Link to="/properties" className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-cyan-500">🔍 Property Search</Link>
-            <Link to="/login" className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-500">Login</Link>
+            {user ? (
+              <Link
+                to="/profile"
+                className="inline-flex items-center justify-center rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600"
+                title="Profile"
+              >
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-base font-bold text-blue-700">
+                  {user.name ? user.name[0].toUpperCase() : (user.email || 'U')[0].toUpperCase()}
+                </span>
+              </Link>
+            ) : (
+              <Link to="/login" className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-500">Login</Link>
+            )}
           </div>
         </div>
       </div>

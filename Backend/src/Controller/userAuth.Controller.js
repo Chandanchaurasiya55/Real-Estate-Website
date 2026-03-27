@@ -70,7 +70,12 @@ async function registerUser(req, res) {
 
     return res.status(201).json({
       message: 'User registered successfully.',
-      user: { id: newUser._id, email: newUser.email },
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        phone: newUser.phone,
+      },
     });
 
   } catch (err) {
@@ -103,7 +108,12 @@ async function loginUser(req, res) {
 
     return res.status(200).json({
       message: 'Login successful.',
-      user: { id: user._id, email: user.email },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+      },
     });
 
   } catch (err) {
@@ -157,11 +167,20 @@ async function refreshTokenController(req, res) {
 // ─────────────────────────────────────────
 // Logout
 // ─────────────────────────────────────────
+async function getUsers(req, res) {
+  try {
+    const users = await User.find().select('-password');
+    return res.status(200).json({ users });
+  } catch (err) {
+    console.error('Get users error:', err);
+    return res.status(500).json({ message: 'Failed to fetch users' });
+  }
+}
+
 async function logoutUser(req, res) {
   res.clearCookie('accessToken');
   res.clearCookie('refreshToken');
   return res.status(200).json({ message: 'Logged out successfully.' });
 }
 
-
-export { registerUser, loginUser, refreshTokenController, logoutUser };
+export { registerUser, loginUser, refreshTokenController, logoutUser, getUsers };

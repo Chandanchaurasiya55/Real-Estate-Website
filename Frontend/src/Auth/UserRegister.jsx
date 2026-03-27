@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL || import.meta.env.API_URL || "http://localhost:3000";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -17,11 +17,19 @@ function Register() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const normalizedValue =
+      name === "name" ? value.slice(0, 15) : name === "phone" ? value.replace(/\D/g, "") : value;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: normalizedValue,
     }));
-    setError("");
+
+    if (name === "name" && value.length > 15) {
+      setError("Name must be 15 characters or less");
+    } else {
+      setError("");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -34,6 +42,11 @@ function Register() {
       !formData.phone
     ) {
       setError("Please fill all fields");
+      return;
+    }
+
+    if (formData.name.length > 15) {
+      setError("Name must be 15 characters or less");
       return;
     }
 
@@ -72,12 +85,26 @@ function Register() {
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const text = await res.text();
+      let data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (parseError) {
+          console.warn("Failed to parse JSON response:", parseError, "response text:", text);
+        }
+      }
 
-      if (!res.ok) throw new Error(data.message || "Registration failed");
+      if (!res.ok) {
+        throw new Error(data?.message || text || "Registration failed");
+      }
 
       // 🔥 auto login after register
-      localStorage.setItem("user", JSON.stringify(data.user));
+      const storedUser = {
+        ...data.user,
+        name: data.user?.name || data.user?.email?.split('@')[0] || formData.name || 'User',
+      };
+      localStorage.setItem("user", JSON.stringify(storedUser));
 
       if (data.accessToken) {
         localStorage.setItem("accessToken", data.accessToken);
@@ -158,8 +185,9 @@ function Register() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                maxLength={15}
                 className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#2f7a78]"
-                placeholder="Enter your name"
+                placeholder="Enter your name (max 15 chars)"
               />
             </div>
 
@@ -219,14 +247,6 @@ function Register() {
               <div className="flex-1 h-[1px] bg-gray-300" />
               OR
               <div className="flex-1 h-[1px] bg-gray-300" />
-            </div>
-            <div className="flex gap-3">
-              <button className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
-                🔵 Google
-              </button>
-              <button className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
-                📘 Facebook
-              </button>
             </div>
           </div>
 

@@ -179,15 +179,6 @@ function Login() {
               OR
               <div className="flex-1 h-[1px] bg-gray-300" />
             </div>
-
-            <div className="flex gap-3">
-              <button className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
-                🔵 Google
-              </button>
-              <button className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
-                📘 Facebook
-              </button>
-            </div>
           </div>
           <div className="mt-6 text-center text-sm text-gray-500">
             Don't have an account?{" "}

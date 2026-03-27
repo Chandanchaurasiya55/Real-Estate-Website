@@ -11,6 +11,8 @@ import AdminLogin from './Auth/Adminlogin'
 import AdminRegister from './Auth/AdminRegister'
 import BuyPage from './pages/BuyPage'
 import RentPage from './pages/RentPage'
+import Profile from './pages/Profile'
+import AdminPanel from './pages/AdminPanel'
 
 function App() {
   const location = useLocation()
@@ -31,6 +33,8 @@ function App() {
         <Route path="/owner" element={<AdminLogin />} />
         <Route path="/owner/register" element={<AdminRegister />} />
         <Route path="/buy/:slug" element={<BuyPage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </div>
   )
