@@ -19,13 +19,25 @@ export default function PropertyDetail() {
     </svg>
   `)
 
-  const getImageSrc = (img) => {
+  const getImageSrc = (img, fallbackId) => {
+    if (fallbackId) return `${API_URL}/api/properties/images/${fallbackId}`
     if (!img) return defaultImage
     if (typeof img === 'string') {
-      if (img.startsWith('data:') || img.startsWith('http://') || img.startsWith('https://')) {
+      if (img.startsWith('data:') || img.startsWith('http://') || img.startsWith('https://') || img.startsWith('/')) {
         return img
       }
       return defaultImage
+    }
+    if (img.fileId) {
+      return `${API_URL}/api/properties/images/${img.fileId}`
+    }
+    if (img.externalUrl) {
+      return img.externalUrl
+    }
+    if (img.url) {
+      if (img.url.startsWith('data:') || img.url.startsWith('http://') || img.url.startsWith('https://') || img.url.startsWith('/')) {
+        return img.url
+      }
     }
     const data = img.data || ''
     if (data.startsWith('data:') || data.startsWith('http://') || data.startsWith('https://')) {
@@ -43,7 +55,9 @@ export default function PropertyDetail() {
   })
 
   const prefetchImages = async (propertyData) => {
-    const imageUrls = [getImageSrc(propertyData.coverImage), ...(propertyData.images || []).map(getImageSrc)].filter(Boolean)
+    const cover = getImageSrc(propertyData.coverImage, propertyData.coverImageId)
+    const gallery = (propertyData.images || []).map((img) => getImageSrc(img))
+    const imageUrls = [cover, ...gallery].filter((src) => src && src !== defaultImage)
     if (!imageUrls.length) {
       setImagesLoaded(true)
       return
@@ -85,12 +99,16 @@ export default function PropertyDetail() {
     )
   }
 
+  const preferredCover = coverImage || getImageSrc(property.coverImage, property.coverImageId) || getImageSrc(property.images?.[0]) || defaultImage
+  const highResCover = preferredCover.startsWith('http') ? `${preferredCover}?dpr=2` : preferredCover
+
   return (
     <div className='mx-auto w-[97%] px-4 py-8 sm:px-8 lg:px-16'>
       <section className='relative mx-auto max-w-full rounded-3xl border border-slate-200 bg-white shadow-lg overflow-hidden'>
         <div className='relative h-96 sm:h-[460px]'>
           <img
-            src={coverImage || getImageSrc(property.coverImage) || getImageSrc(property.images?.[0]) || defaultImage}
+            src={preferredCover}
+            srcSet={highResCover}
             alt={property.title}
             className='h-full w-full object-cover object-center'
           />
@@ -108,7 +126,7 @@ export default function PropertyDetail() {
 
         <div className='bg-white p-6'>
           <div className='mb-4 flex gap-2 overflow-x-auto pb-2'>
-            {([getImageSrc(property.coverImage), ...(property.images || []).map((img) => getImageSrc(img))]).filter(Boolean).slice(0, 10).map((imgSrc, idx) => (
+            {([getImageSrc(property.coverImage, property.coverImageId), ...(property.images || []).map((img) => getImageSrc(img))]).filter((src) => src && src !== defaultImage).slice(0, 10).map((imgSrc, idx) => (
               <img key={idx} src={imgSrc} alt={`thumb-${idx}`} className='h-20 w-28 cursor-pointer rounded-lg object-cover' onClick={() => setCoverImage(imgSrc)} />
             ))}
           </div>

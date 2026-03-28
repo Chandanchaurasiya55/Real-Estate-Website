@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+
+
 export default function PropertyCard({ property }) {
   const [isFavorite, setIsFavorite] = useState(false)
   const navigate = useNavigate()
+  const API_URL = (import.meta.env.VITE_API_URL || import.meta.env.API_URL || '').replace(/\/+$/, '')
 
   const getEmoji = (feature) => {
     switch (feature) {
@@ -23,12 +26,6 @@ export default function PropertyCard({ property }) {
 
   const handleCardClick = () => navigate(`/property/${property._id || property.id}`)
 
-  const defaultImage = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-    <svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
-      <rect width="600" height="400" fill="#CBD5E1" />
-      <text x="50%" y="50%" text-anchor="middle" fill="#64748B" font-size="28" font-family="Arial, sans-serif" dy="0.35em">No Image Available</text>
-    </svg>
-  `);
 
   const normalizeImage = (img) => {
     if (!img) return '';
@@ -53,16 +50,35 @@ export default function PropertyCard({ property }) {
       if (typeof entry === 'string') {
         const normalized = normalizeImage(entry);
         if (normalized) return normalized;
-      } else if (entry.data || entry.coverImage) {
-        const normalized = normalizeImage(entry.data || entry.coverImage);
-        if (normalized) return normalized;
+      } else {
+        if (entry.fileId) {
+          return API_URL ? `${API_URL}/api/properties/images/${entry.fileId}` : `/api/properties/images/${entry.fileId}`;
+        }
+        if (entry.externalUrl) {
+          return normalizeImage(entry.externalUrl);
+        }
+        if (entry.url) {
+          if (entry.url.startsWith('/')) {
+            return entry.url;
+          }
+          return normalizeImage(entry.url);
+        }
+        if (entry.data || entry.coverImage) {
+          const normalized = normalizeImage(entry.data || entry.coverImage);
+          if (normalized) return normalized;
+        }
       }
     }
     return '';
   };
 
-  const primaryImage = normalizeImage(property.coverImage) || getFirstImageFromList(property.images)
-    || normalizeImage(property.image) || defaultImage;
+  const gridFsImage = property.coverImageId ? (API_URL ? `${API_URL}/api/properties/images/${property.coverImageId}` : `/api/properties/images/${property.coverImageId}`) : "";
+  const primaryImage =
+    gridFsImage ||
+    normalizeImage(property.coverImage) ||
+    getFirstImageFromList(property.images) ||
+    normalizeImage(property.image) ;
+
 
   return (
     <div
@@ -70,7 +86,12 @@ export default function PropertyCard({ property }) {
       onClick={handleCardClick}
     >
       <div className="relative h-48 w-full overflow-hidden">
-        <img loading="eager" src={primaryImage} alt={property.title} className="h-full w-full object-cover object-center" />
+        <img 
+          loading="eager" 
+          src={primaryImage} 
+          alt={property.title} 
+          className="h-full w-full object-cover object-center" 
+        />
         <span className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-bold ${property.type === 'rent' ? 'bg-blue-500 text-white' : 'bg-emerald-500 text-white'}`}>
           {property.badge}
         </span>

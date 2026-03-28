@@ -3,27 +3,38 @@ import { Link } from 'react-router-dom'
 import PropertyCard from './PropertyCard'
 
 export default function PropertySection({ compact = false, ctaText = 'View All Properties' }) {
-  const API_URL = import.meta.env.VITE_API_URL || import.meta.env.API_URL || 'http://localhost:3000'
+  const API_URL = (import.meta.env.VITE_API_URL || import.meta.env.API_URL || '').replace(/\/+$/, '')
   const [properties, setProperties] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
+    let mounted = true
     const fetchProperties = async () => {
+      if (!mounted) return
       try {
-        const res = await fetch(`${API_URL}/api/properties`)
-        if (!res.ok) throw new Error('Unable to fetch properties')
+        const apiUrl = API_URL ? `${API_URL}/api/properties` : '/api/properties'
+        const res = await fetch(apiUrl)
+        if (!res.ok) throw new Error(`Unable to fetch properties from ${apiUrl}`)
         const data = await res.json()
+        if (!mounted) return
         setProperties(data.properties || [])
       } catch (err) {
+        if (!mounted) return
         console.error(err)
         setError('Could not load properties.')
       } finally {
-        setLoading(false)
+        if (mounted) setLoading(false)
       }
     }
 
     fetchProperties()
+    const intervalId = setInterval(fetchProperties, 1000)
+
+    return () => {
+      mounted = false
+      clearInterval(intervalId)
+    }
   }, [])
 
   return (

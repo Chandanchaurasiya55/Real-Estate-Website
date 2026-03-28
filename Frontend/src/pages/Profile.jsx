@@ -33,18 +33,21 @@ export default function Profile() {
   }
 
   const displayName = user.name || user.email?.split('@')[0] || 'User'
+  const isAdmin = (user.role || '').toLowerCase() === 'admin'
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gray-100 p-6">
       <div className="w-full max-w-3xl rounded-xl bg-white p-8 shadow-lg">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-black">User Profile</h1>
-          <button
-            onClick={() => navigate('/')}
-            className="rounded-lg border border-slate-300 bg-slate-100 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-200"
-          >
-            Back Home
-          </button>
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
+          <h1 className="text-3xl font-black">{isAdmin ? 'Admin Profile' : 'User Profile'}</h1>
+          <div className="flex gap-2">
+            <button
+              onClick={() => navigate('/')}
+              className="rounded-lg border border-slate-300 bg-slate-100 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-200"
+            >
+              Back Home
+            </button>
+          </div>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">

@@ -71,7 +71,7 @@ function Navbar() {
             <Link to="/properties" className="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-cyan-500">🔍 Property Search</Link>
             {user ? (
               <Link
-                to="/profile"
+                to={user.role && user.role.toLowerCase() === 'admin' ? '/admin' : '/profile'}
                 className="inline-flex items-center justify-center rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600"
                 title="Profile"
               >
