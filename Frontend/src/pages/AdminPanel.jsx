@@ -168,7 +168,9 @@ function AdminPanel() {
       try {
         const data = await compressImage(file);
         if (data) items.push({ filename: file.name, contentType: file.type, data });
-      } catch {}
+      } catch {
+        console.error('Failed to process image:', file.name);
+      }
     }
     setForm(prev => ({ ...prev, images: items }));
     setMessage(`${items.length} image(s) selected`);
@@ -222,31 +224,21 @@ function AdminPanel() {
 
   const tabLabel = activeTab.charAt(0).toUpperCase() + activeTab.slice(1);
 
-  const inputCls = "w-full bg-[#fafafa] border border-[#e8e8e8] rounded-[10px] px-[14px] py-[10px] text-sm text-[#1a1a1a] outline-none focus:border-blue-600 focus:bg-white transition-all font-sans";
-  const labelCls = "text-xs font-semibold text-[#666]";
+  const inputCls = "w-full bg-[#fafafa] border border-[#e8e8e8] rounded-[10px] px-[14px] py-[10px] text-sm text-[#111111] outline-none focus:border-blue-600 focus:bg-white transition-all font-sans placeholder:text-[#aaa]";
+  const labelCls = "text-xs font-semibold text-[#444]";
 
   return (
-    <div className="flex min-h-screen bg-[#f7f6f3] text-[#1a1a1a]">
+    // ✅ FIX: outer wrapper is relative so sidebar can be sticky within it
+    <div className="flex bg-[#f7f6f3] text-[#080707]">
 
       {/* ── SIDEBAR ── */}
-      <aside className="hidden lg:flex w-60 shrink-0 flex-col fixed top-16 left-0 h-[calc(100vh-4rem)] z-10 bg-white border-r border-[#ebebeb] px-5 py-8 overflow-y-auto">
+      {/* ✅ FIX: changed from fixed to sticky, top-16 keeps it below navbar,
+           self-start + h stays in flow so it never overlaps the footer */}
+      <aside className="hidden lg:flex w-60 shrink-0 flex-col sticky top-16 self-start h-[calc(100vh-4rem)] bg-white border-r border-[#ebebeb] px-5 py-8 overflow-y-auto">
 
         {/* Logo & greeting */}
-        <div className="text-[22px] font-bold text-[#1a1a1a] tracking-tight mb-1">Admin</div>
-        <div className="text-xs text-[#999] font-normal mb-9">Welcome back, {name}</div>
-
-        {/* Mini stats */}
-        <div className="bg-[#fafafa] border border-[#ebebeb] rounded-xl px-4 py-3 mb-2">
-          <p className="text-[11px] text-[#aaa] uppercase tracking-wide mb-1">Properties</p>
-          <p className="text-[22px] font-semibold text-[#1a1a1a]">{properties.length || 0}</p>
-        </div>
-        <div className="bg-[#fafafa] border border-[#ebebeb] rounded-xl px-4 py-3 mb-6">
-          <p className="text-[11px] text-[#aaa] uppercase tracking-wide mb-1">Users</p>
-          <p className="text-[22px] font-semibold text-[#1a1a1a]">{users.length || 0}</p>
-        </div>
-
-        {/* Nav label */}
-        <div className="text-[10px] font-semibold uppercase tracking-[1.2px] text-[#bbb] pl-3 mb-2.5">Navigation</div>
+        <div className="text-[22px] font-bold text-[#0f0f0f] tracking-tight mb-1">Admin Panel</div>
+        <div className="text-xs text-[#777] font-normal mb-9">Welcome back, {name}</div>
 
         {/* Nav buttons */}
         <nav className="flex flex-col gap-0.5">
@@ -257,7 +249,7 @@ function AdminPanel() {
               className={`flex items-center gap-2.5 w-full px-3 py-2.5 rounded-[10px] text-[13.5px] font-medium text-left transition-all border-none cursor-pointer
                 ${activeTab === tab
                   ? 'bg-[#f0f5ff] text-blue-600 [&_svg]:stroke-blue-600'
-                  : 'bg-transparent text-[#666] hover:bg-[#f5f5f5] hover:text-[#1a1a1a]'
+                  : 'bg-transparent text-[#444] hover:bg-[#f5f5f5] hover:text-[#111]'
                 }`}
             >
               {icons[tab]}
@@ -276,11 +268,11 @@ function AdminPanel() {
       </aside>
 
       {/* ── MAIN CONTENT ── */}
-      <main className="flex-1 lg:ml-60 px-6 lg:px-10 py-9 min-h-[calc(100vh-4rem)]">
+      <main className="flex-1 px-6 lg:px-10 py-9 min-h-screen">
 
         {/* Top bar */}
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-[28px] font-bold text-[#1a1a1a] tracking-tight">{tabLabel}</h1>
+          <h1 className="text-[28px] font-bold text-[#0f0f0f] tracking-tight">{tabLabel}</h1>
           <span className="bg-[#f0f5ff] text-blue-600 text-[11px] font-semibold px-3 py-1 rounded-full tracking-wide">Admin Panel</span>
         </div>
 
@@ -295,37 +287,29 @@ function AdminPanel() {
         {/* ── DASHBOARD ── */}
         {activeTab === 'dashboard' && (
           <div>
-            {/* Stat cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-
-              {/* Properties stat */}
               <div className="relative bg-white border border-[#ebebeb] rounded-2xl p-6 overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl bg-gradient-to-r from-blue-500 to-blue-300" />
-                <div className="text-[11px] font-semibold uppercase tracking-[1px] text-[#aaa] mb-2.5">Total Properties</div>
-                <div className="text-[36px] font-semibold text-[#1a1a1a] leading-none">{properties.length || 0}</div>
+                <div className="text-[11px] font-semibold uppercase tracking-[1px] text-[#777] mb-2.5">Total Properties</div>
+                <div className="text-[36px] font-semibold text-[#111] leading-none">{properties.length || 0}</div>
               </div>
-
-              {/* Users stat */}
               <div className="relative bg-white border border-[#ebebeb] rounded-2xl p-6 overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl bg-gradient-to-r from-amber-400 to-yellow-300" />
-                <div className="text-[11px] font-semibold uppercase tracking-[1px] text-[#aaa] mb-2.5">Total Users</div>
-                <div className="text-[36px] font-semibold text-[#1a1a1a] leading-none">{users.length || 0}</div>
+                <div className="text-[11px] font-semibold uppercase tracking-[1px] text-[#777] mb-2.5">Total Users</div>
+                <div className="text-[36px] font-semibold text-[#111] leading-none">{users.length || 0}</div>
               </div>
-
-              {/* Server status */}
               <div className="relative bg-white border border-[#ebebeb] rounded-2xl p-6 overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl bg-gradient-to-r from-emerald-500 to-teal-300" />
-                <div className="text-[11px] font-semibold uppercase tracking-[1px] text-[#aaa] mb-2.5">Server Status</div>
+                <div className="text-[11px] font-semibold uppercase tracking-[1px] text-[#777] mb-2.5">Server Status</div>
                 <div className="flex items-center gap-2 mt-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-emerald-500 text-base font-semibold">Online</span>
+                  <span className="text-emerald-600 text-base font-semibold">Online</span>
                 </div>
               </div>
             </div>
 
-            {/* Quick actions */}
             <div className="bg-white border border-[#ebebeb] rounded-2xl p-7 mb-5">
-              <div className="text-[15px] font-semibold text-[#1a1a1a] mb-5">Quick Actions</div>
+              <div className="text-[15px] font-semibold text-[#111] mb-5">Quick Actions</div>
               <div className="flex flex-wrap gap-2.5">
                 <button
                   onClick={() => setActiveTab('properties')}
@@ -347,15 +331,13 @@ function AdminPanel() {
         {/* ── PROPERTIES ── */}
         {activeTab === 'properties' && (
           <div>
-            {/* Add property form */}
             <div className="bg-white border border-[#ebebeb] rounded-2xl p-7 mb-5">
-              <div className="flex items-center gap-2 text-[15px] font-semibold text-[#1a1a1a] mb-5">
+              <div className="flex items-center gap-2 text-[15px] font-semibold text-[#111] mb-5">
                 {icons.add} Add New Property
               </div>
 
               <form onSubmit={handleCreateProperty}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
                   {[
                     { name: 'title',     label: 'Property Title', placeholder: 'e.g. Modern 2BHK Flat' },
                     { name: 'location',  label: 'Location',       placeholder: 'e.g. Agra, UP' },
@@ -377,7 +359,6 @@ function AdminPanel() {
                     </div>
                   ))}
 
-                  {/* Listing type */}
                   <div className="flex flex-col gap-1.5">
                     <label className={labelCls}>Listing Type</label>
                     <select name="type" value={form.type} onChange={handleInput} className={inputCls}>
@@ -386,7 +367,6 @@ function AdminPanel() {
                     </select>
                   </div>
 
-                  {/* Description - full width */}
                   <div className="flex flex-col gap-1.5 sm:col-span-2">
                     <label className={labelCls}>Description</label>
                     <textarea
@@ -400,7 +380,6 @@ function AdminPanel() {
                     />
                   </div>
 
-                  {/* Cover image upload - full width */}
                   <div className="flex flex-col gap-1.5 sm:col-span-2">
                     <label className={labelCls}>Cover Image</label>
                     <label className="relative flex flex-col items-center justify-center gap-1.5 border-2 border-dashed border-[#d0d0d0] rounded-xl p-5 bg-[#fafafa] cursor-pointer hover:border-blue-500 hover:bg-[#f0f5ff] transition-all group">
@@ -412,7 +391,7 @@ function AdminPanel() {
                         onChange={e => { const f = e.target.files?.[0]; if (f) handleCoverFile(f); }}
                       />
                       <span className="text-[#aaa] group-hover:text-blue-500 transition-colors">{icons.upload}</span>
-                      <span className="text-[13px] text-[#888]">
+                      <span className="text-[13px] text-[#666]">
                         {form.coverImage
                           ? <span className="text-emerald-600 font-semibold">✓ Cover image selected</span>
                           : <><span className="text-blue-600 font-semibold">Click to upload</span> cover image</>
@@ -421,7 +400,6 @@ function AdminPanel() {
                     </label>
                   </div>
 
-                  {/* Gallery upload - full width */}
                   <div className="flex flex-col gap-1.5 sm:col-span-2">
                     <label className={labelCls}>Gallery Photos (max 10)</label>
                     <label className="relative flex flex-col items-center justify-center gap-1.5 border-2 border-dashed border-[#d0d0d0] rounded-xl p-5 bg-[#fafafa] cursor-pointer hover:border-blue-500 hover:bg-[#f0f5ff] transition-all group">
@@ -434,7 +412,7 @@ function AdminPanel() {
                         onChange={handleFileChange}
                       />
                       <span className="text-[#aaa] group-hover:text-blue-500 transition-colors">{icons.upload}</span>
-                      <span className="text-[13px] text-[#888]">
+                      <span className="text-[13px] text-[#666]">
                         {form.images.length > 0
                           ? <span className="text-emerald-600 font-semibold">✓ {form.images.length} image(s) selected</span>
                           : <><span className="text-blue-600 font-semibold">Click to upload</span> gallery images</>
@@ -443,7 +421,6 @@ function AdminPanel() {
                     </label>
                   </div>
 
-                  {/* Submit - full width */}
                   <div className="sm:col-span-2">
                     <button
                       type="submit"
@@ -456,28 +433,26 @@ function AdminPanel() {
               </form>
             </div>
 
-            {/* Property list */}
             <div className="bg-white border border-[#ebebeb] rounded-2xl p-7">
-              <div className="flex items-center gap-2 text-[15px] font-semibold text-[#1a1a1a] mb-5">
+              <div className="flex items-center gap-2 text-[15px] font-semibold text-[#111] mb-5">
                 {icons.properties} All Properties ({properties.length})
               </div>
-
               {properties.length === 0 ? (
-                <div className="text-center py-10 text-[#bbb] text-[13px]">No properties added yet.</div>
+                <div className="text-center py-10 text-[#999] text-[13px]">No properties added yet.</div>
               ) : (
                 <div className="flex flex-col gap-2">
                   {properties.map(p => (
                     <div key={p._id} className="flex items-center justify-between gap-4 px-4 py-3.5 border border-[#f0f0f0] rounded-xl hover:border-[#ddd] hover:bg-[#fafafa] transition-all">
                       <div>
-                        <div className="text-[14px] font-semibold text-[#1a1a1a] mb-1">{p.title}</div>
-                        <div className="flex items-center gap-2 text-[12px] text-[#999]">
+                        <div className="text-[14px] font-semibold text-[#111] mb-1">{p.title}</div>
+                        <div className="flex items-center gap-2 text-[12px] text-[#666]">
                           <span>{p.location}</span>
                           <span className="w-[3px] h-[3px] rounded-full bg-[#ccc]" />
                           <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${
                             p.type === 'sale' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
                           }`}>{p.type}</span>
                           <span className="w-[3px] h-[3px] rounded-full bg-[#ccc]" />
-                          <span className="font-semibold text-[#1a1a1a]">£{p.price?.toLocaleString()}</span>
+                          <span className="font-semibold text-[#111]">£{p.price?.toLocaleString()}</span>
                         </div>
                       </div>
                       <button
@@ -497,12 +472,11 @@ function AdminPanel() {
         {/* ── USERS ── */}
         {activeTab === 'users' && (
           <div className="bg-white border border-[#ebebeb] rounded-2xl p-7">
-            <div className="flex items-center gap-2 text-[15px] font-semibold text-[#1a1a1a] mb-5">
+            <div className="flex items-center gap-2 text-[15px] font-semibold text-[#111] mb-5">
               {icons.users} All Users ({users.length})
             </div>
-
             {users.length === 0 ? (
-              <div className="text-center py-10 text-[#bbb] text-[13px]">No users yet.</div>
+              <div className="text-center py-10 text-[#999] text-[13px]">No users yet.</div>
             ) : (
               <div className="flex flex-col gap-2">
                 {users.map(u => (
@@ -511,10 +485,10 @@ function AdminPanel() {
                       {(u.name || u.email || 'U')[0].toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-[14px] font-semibold text-[#1a1a1a] truncate">{u.name || 'Unnamed'}</div>
-                      <div className="text-[12px] text-[#999] truncate">{u.email}</div>
+                      <div className="text-[14px] font-semibold text-[#111] truncate">{u.name || 'Unnamed'}</div>
+                      <div className="text-[12px] text-[#555] truncate">{u.email}</div>
                     </div>
-                    <span className="text-[12px] text-[#bbb] shrink-0">{u.phone || 'N/A'}</span>
+                    <span className="text-[12px] text-[#888] shrink-0">{u.phone || 'N/A'}</span>
                   </div>
                 ))}
               </div>
